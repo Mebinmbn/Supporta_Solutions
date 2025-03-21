@@ -5,17 +5,22 @@ import {
   generateToken,
 } from "../services/tokenService.js";
 
-const registerUseCase = async (userData) => {
+const registerUseCase = async (username, email, password, filePath) => {
   try {
-    const isExistingUser = await authRepository.isExistingUser(userData.email);
+    const isExistingUser = await authRepository.isExistingUser(email);
     if (isExistingUser) {
       throw new Error("Email already registered, please login");
     }
 
-    userData.password = await hashPassword(userData.password);
-    console.log("Hashed password:", userData.password);
+    const hpassword = await hashPassword(password);
+    console.log("Hashed password:", password);
 
-    return await authRepository.registerUser(userData);
+    return await authRepository.registerUser(
+      username,
+      email,
+      hpassword,
+      filePath
+    );
   } catch (error) {
     console.error("Registration Error:", error.message);
     throw new Error(error.message || "Error in registration");

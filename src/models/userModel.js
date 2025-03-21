@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema(
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true, lowecase: true },
     password: { type: String, required: true },
-    // profile_photo: { type: string },
+    profile_photo: { type: String },
     blockedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   {

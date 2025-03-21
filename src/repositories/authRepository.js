@@ -9,9 +9,14 @@ const isExistingUser = async (email) => {
   }
 };
 
-const registerUser = async (userData) => {
+const registerUser = async (username, email, password, filePath) => {
   try {
-    console.log(userData);
+    const userData = {
+      username,
+      email,
+      password,
+      profile_photo: filePath,
+    };
     const newUser = new User(userData);
     newUser.save();
     console.log(newUser);

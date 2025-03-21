@@ -1,9 +1,14 @@
 import express from "express";
 import authController from "../controllers/authController.js";
+import upload from "../services/multerService.js";
 
 const router = express.Router();
 
-router.post("/register", authController.register);
+router.post(
+  "/register",
+  upload.single("profile-photo"),
+  authController.register
+);
 
 router.post("/login", authController.login);
 
