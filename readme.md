@@ -17,9 +17,12 @@ npm install
 
 Create a `.env` file in the root folder and add:
 
-PORT=5000
+```env
+PORT=8000
 MONGO_URI=<your-mongodb-connection-string>
-JWT_SECRET=<your-jwt-secret>
+TOKEN_Key=<your-jwt-secret>
+REFRESH_TOKEN_KEY=<your-refresh-token_secret>
+```
 
 ### Start the Server
 
@@ -38,8 +41,8 @@ Server will run at `http://localhost:5000/`
 - **Request:**
 
 {
-"username": "JohnDoe",
-"email": "john@example.com",
+"username": "ram",
+"email": "ram@example.com",
 "password": "password123"
 }
 
@@ -50,8 +53,8 @@ Server will run at `http://localhost:5000/`
 "message": "User registered successfully",
 "response": {
 "\_id": "userId",
-"username": "JohnDoe",
-"email": "john@example.com"
+"username": "ram",
+"email": "ram@example.com"
 }
 }
 
