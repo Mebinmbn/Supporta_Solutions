@@ -1,4 +1,4 @@
-import Brand from "../models/brandModel";
+import Brand from "../models/brandModel.js";
 
 const existingBrand = async (brandName) => {
   return await Brand.findOne({ brandName });

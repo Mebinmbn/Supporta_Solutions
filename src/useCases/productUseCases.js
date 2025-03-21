@@ -1,9 +1,5 @@
-const ProductModel = require("../models/productModel");
-
-const { default: brandRepository } = require("../repositories/brandRepository");
-const {
-  default: productRepository,
-} = require("../repositories/productRepository");
+import brandRepository from "../repositories/brandRepository.js";
+import productRepository from "../repositories/productRepository.js";
 
 const addProductUseCase = async (
   productName,
@@ -58,17 +54,38 @@ const deleteProductUseCase = async (productId, userId) => {
     throw new Error("Unauthorized: You can only delete your own products.");
   }
 
-  await product.deleteOne();
-  return { message: "Product deleted successfully" };
+  return await productRepository.deleteProduct();
 };
 
-const findAllProductUseCase = async () => {
-  return await ProductModel.find();
+const getAllProductsUseCase = async (userId, filters, sortField, sortOrder) => {
+  // ✅ Find users who have blocked the current user
+  const blockedUsers = await UserModel.find({ blockedUsers: userId }).select(
+    "_id"
+  );
+  const blockedUserIds = blockedUsers.map((user) => user._id);
+
+  // ✅ Filtering conditions
+  let query = { addedBy: { $nin: blockedUserIds } };
+  if (filters.brand) query.brand = filters.brand;
+  if (filters.category) query.category = filters.category;
+
+  // ✅ Sorting conditions
+  let sortQuery = {};
+  if (sortField) sortQuery[sortField] = sortOrder === "desc" ? -1 : 1;
+
+  // ✅ Fetch products from Repository
+  return await productRepository.findProducts(query, sortQuery);
 };
 
-module.exports = {
+// ✅ Fetch only logged-in user's products
+const getUserProductsUseCase = async (userId) => {
+  return await productRepository.findUserProducts(userId);
+};
+
+export default {
   addProductUseCase,
   updateProductUseCase,
   deleteProductUseCase,
-  findAllProductUseCase,
+  getAllProductsUseCase,
+  getUserProductsUseCase,
 };

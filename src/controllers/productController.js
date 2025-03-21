@@ -1,4 +1,4 @@
-const productUseCases = require("../useCases/productUseCases");
+import productUseCases from "../useCases/productUseCases.js";
 
 const addProduct = async (req, res) => {
   try {
@@ -81,15 +81,50 @@ const deleteProduct = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
   try {
-    const products = await productUseCases.findAllProductUseCase();
-    res.status(200).json({
-      success: true,
-      products,
-      message: "Fetched products successfully",
-    });
+    const { brand, category, sortField, sortOrder } = req.query;
+    const userId = req.user.id;
+
+    const filters = { brand, category };
+    const products = await productUseCases.getAllProductsUseCase(
+      userId,
+      filters,
+      sortField,
+      sortOrder
+    );
+
+    res
+      .status(200)
+      .json({
+        success: true,
+        products,
+        message: "Fetched products successfully",
+      });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-module.exports = { addProduct, updateProduct, deleteProduct, getAllProducts };
+const getUserProducts = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const products = await productUseCases.getUserProductsUseCase(userId);
+
+    res
+      .status(200)
+      .json({
+        success: true,
+        products,
+        message: "Fetched user's products successfully",
+      });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export default {
+  addProduct,
+  updateProduct,
+  deleteProduct,
+  getAllProducts,
+  getUserProducts,
+};

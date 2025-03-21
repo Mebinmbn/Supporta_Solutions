@@ -7,6 +7,7 @@ const userSchema = mongoose.Schema(
     email: { type: String, required: true, unique: true, lowecase: true },
     password: { type: String, required: true },
     // profile_photo: { type: string },
+    blockedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   {
     Timestamp: true,

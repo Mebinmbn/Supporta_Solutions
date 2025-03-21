@@ -1,4 +1,4 @@
-import brandRepository from "../repositories/brandRepository";
+import brandRepository from "../repositories/brandRepository.js";
 
 const addBrandUseCase = async (brandName, filePath, categories) => {
   try {

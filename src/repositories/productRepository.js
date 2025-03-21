@@ -1,4 +1,4 @@
-import { Product } from "../models/productModel";
+import { Product } from "../models/productModel.js";
 
 const addProduct = async (
   productName,
@@ -44,4 +44,19 @@ const deleteProduct = async (productId) => {
   } catch (error) {}
 };
 
-export default { addProduct, existingProduct, updateProduct };
+const findProducts = async (filters, sortQuery) => {
+  return await Product.find(filters).sort(sortQuery);
+};
+
+const findUserProducts = async (userId) => {
+  return await Product.find({ addedBy: userId });
+};
+
+export default {
+  addProduct,
+  existingProduct,
+  updateProduct,
+  deleteProduct,
+  findProducts,
+  findUserProducts,
+};

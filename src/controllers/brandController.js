@@ -1,6 +1,7 @@
-import brandUseCases from "../useCases/brandUseCases";
+import brandUseCases from "../useCases/brandUseCases.js";
 
 const addBrand = async (req, res) => {
+  console.log(req.body.brandName, req.file.path);
   try {
     if (!req.file) {
       throw new Error("license image is required");
@@ -17,7 +18,7 @@ const addBrand = async (req, res) => {
       categories
     );
 
-    if (response) {
+    if (newBrand) {
       res.status(201).json({
         success: true,
         brand: newBrand,
@@ -25,7 +26,7 @@ const addBrand = async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -38,7 +39,7 @@ const getAllBrands = async (req, res) => {
       message: "Fetched branches successfully",
     });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: error.message });
   }
 };
 

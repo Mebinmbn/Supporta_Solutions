@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 8000;
 const app = express();
 
 app.use(express.json());
+app.use(express.static('./uploads'));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/brands", brandRoutes);
