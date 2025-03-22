@@ -28,7 +28,7 @@ REFRESH_TOKEN_KEY=<your-refresh-token_secret>
 
 npm start
 
-Server will run at `http://localhost:5000/`
+Server will run at `http://localhost:8000/`
 
 ## API Endpoints
 
