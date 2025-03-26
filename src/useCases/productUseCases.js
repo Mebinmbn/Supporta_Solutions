@@ -58,26 +58,21 @@ const deleteProductUseCase = async (productId, userId) => {
 };
 
 const getAllProductsUseCase = async (userId, filters, sortField, sortOrder) => {
-  // ✅ Find users who have blocked the current user
   const blockedUsers = await UserModel.find({ blockedUsers: userId }).select(
     "_id"
   );
   const blockedUserIds = blockedUsers.map((user) => user._id);
 
-  // ✅ Filtering conditions
   let query = { addedBy: { $nin: blockedUserIds } };
   if (filters.brand) query.brand = filters.brand;
   if (filters.category) query.category = filters.category;
 
-  // ✅ Sorting conditions
   let sortQuery = {};
   if (sortField) sortQuery[sortField] = sortOrder === "desc" ? -1 : 1;
 
-  // ✅ Fetch products from Repository
   return await productRepository.findProducts(query, sortQuery);
 };
 
-// ✅ Fetch only logged-in user's products
 const getUserProductsUseCase = async (userId) => {
   return await productRepository.findUserProducts(userId);
 };

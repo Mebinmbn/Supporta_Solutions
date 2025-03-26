@@ -4,7 +4,7 @@ const addBrand = async (req, res) => {
   console.log(req.body.brandName, req.file.path);
   try {
     if (!req.file) {
-      throw new Error("license image is required");
+      throw new Error("Image is required");
     }
 
     const { brandName, categories } = req.body;
